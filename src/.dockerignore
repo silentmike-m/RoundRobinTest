@@ -1,0 +1,8 @@
+**/.vs/
+**/bin/
+**/obj/
+**/appsettings.local.json
+**/.idea/
+**/.sonarqube/
+**/.sonarlint/
+**/.vscode/

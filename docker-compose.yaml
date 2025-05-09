@@ -1,0 +1,39 @@
+networks:
+  dev-network:
+    driver: bridge
+volumes:
+  seqdata:
+    external: true
+services:
+  seq:
+    container_name: seq
+    image: datalust/seq
+    environment:
+      ACCEPT_EULA: "Y"
+      SEQ_FIRSTRUN_ADMINUSERNAME: "admin"
+      SEQ_FIRSTRUN_ADMINPASSWORDHASH: "FL6x1NNpca5LonfiH1pumrjVZdF2yoPW4DWPJ03VyqwnWmmErw=="
+    ports:
+      - "5341:80"
+    networks:
+      - dev-network
+    volumes:
+      - seqdata:/data
+    mem_limit: 256m
+    restart: unless-stopped
+  simple-api-1:
+    container_name: simple-api-1
+    image: simple-api:local
+    build:
+      context: ./
+      dockerfile: ./src/Coda.SimpleWebApi/Dockerfile
+    environment:
+      SERILOG__WRITETO__1__NAME: Seq
+      SERILOG__WRITETO__1__ARGS__SERVERURL: http://seq:5341
+    depends_on:
+      seq:
+        condition: service_started
+    ports:
+      - "5080:5080"
+    networks:
+      - dev-network
+    restart: unless-stopped        
