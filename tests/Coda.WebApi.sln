@@ -3,9 +3,9 @@ Microsoft Visual Studio Solution File, Format Version 12.00
 # Visual Studio Version 17
 VisualStudioVersion = 17.0.31903.59
 MinimumVisualStudioVersion = 10.0.40219.1
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Code.SimpleWebApi.UnitTests", "Code.SimpleWebApi.UnitTests\Code.SimpleWebApi.UnitTests.csproj", "{DFDEDBDE-A155-41AF-B580-F0909972CCB7}"
-EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Coda.SimpleWebApi", "..\src\Coda.SimpleWebApi\Coda.SimpleWebApi.csproj", "{647309AD-66AE-4C80-8ABF-5C20CE06E680}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Coda.SimpleWebApi.IntegrationTests", "Coda.SimpleWebApi.IntegrationTests\Coda.SimpleWebApi.IntegrationTests.csproj", "{3D9B2EB7-E929-4326-9DA2-1EFF83D81C15}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
@@ -16,13 +16,13 @@ Global
 		HideSolutionNode = FALSE
 	EndGlobalSection
 	GlobalSection(ProjectConfigurationPlatforms) = postSolution
-		{DFDEDBDE-A155-41AF-B580-F0909972CCB7}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
-		{DFDEDBDE-A155-41AF-B580-F0909972CCB7}.Debug|Any CPU.Build.0 = Debug|Any CPU
-		{DFDEDBDE-A155-41AF-B580-F0909972CCB7}.Release|Any CPU.ActiveCfg = Release|Any CPU
-		{DFDEDBDE-A155-41AF-B580-F0909972CCB7}.Release|Any CPU.Build.0 = Release|Any CPU
 		{647309AD-66AE-4C80-8ABF-5C20CE06E680}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
 		{647309AD-66AE-4C80-8ABF-5C20CE06E680}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{647309AD-66AE-4C80-8ABF-5C20CE06E680}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{647309AD-66AE-4C80-8ABF-5C20CE06E680}.Release|Any CPU.Build.0 = Release|Any CPU
+		{3D9B2EB7-E929-4326-9DA2-1EFF83D81C15}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{3D9B2EB7-E929-4326-9DA2-1EFF83D81C15}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{3D9B2EB7-E929-4326-9DA2-1EFF83D81C15}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{3D9B2EB7-E929-4326-9DA2-1EFF83D81C15}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 EndGlobal

@@ -4,7 +4,6 @@ WORKDIR /src
 
 COPY Directory.Build.props Directory.Build.props
 COPY Directory.Packages.props Directory.Packages.props
-COPY nuget.config nuget.config
 
 COPY ./src/Coda.SimpleWebApi ./
 

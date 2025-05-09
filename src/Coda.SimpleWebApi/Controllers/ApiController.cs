@@ -11,7 +11,7 @@ public sealed class ApiController : ControllerBase
     public ApiController(ILogger<ApiController> logger)
         => this.logger = logger;
 
-    [Route("Post"), HttpPost, ProducesResponseType(typeof(JsonObject), StatusCodes.Status200OK)]
+    [Route("post"), HttpPost, ProducesResponseType(typeof(JsonObject), StatusCodes.Status200OK)]
     public IActionResult Post([FromBody] JsonObject value)
     {
         this.logger.LogInformation("Received post request");

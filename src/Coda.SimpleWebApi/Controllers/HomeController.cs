@@ -1,6 +1,7 @@
 ﻿namespace Coda.SimpleWebApi.Controllers;
 
 using Microsoft.AspNetCore.Mvc;
+using Microsoft.Extensions.Logging;
 
 [ApiController]
 public sealed class HomeController : ControllerBase
