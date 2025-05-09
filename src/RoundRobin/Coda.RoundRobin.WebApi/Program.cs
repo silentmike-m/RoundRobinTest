@@ -1,3 +1,4 @@
+using Coda.RoundRobin.Infrastructure;
 using Coda.RoundRobin.WebApi.Constants;
 using Coda.RoundRobin.WebApi.Extensions;
 using Microsoft.AspNetCore.Diagnostics.HealthChecks;
@@ -27,7 +28,7 @@ builder.Services
 
 builder.Services.AddEndpointsApiExplorer();
 
-builder.Services.AddHealthChecks();
+builder.Services.AddInfrastructure(builder.Configuration);
 
 builder.Services.ConfigureSwaggerGen(options =>
 {

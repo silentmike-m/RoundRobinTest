@@ -27,13 +27,94 @@ services:
       context: ./
       dockerfile: ./src/Coda.SimpleWebApi/Dockerfile
     environment:
+      AppInstanceVersion: 1
+      SERILOG__WRITETO__1__NAME: Seq
+      SERILOG__WRITETO__1__ARGS__SERVERURL: http://seq:5341
+    healthcheck:
+      test: curl --fail http://simple-api-1/hc || exit 1
+      interval: 40s
+      timeout: 30s
+      retries: 3
+      start_period: 60s
+    depends_on:
+      seq:
+        condition: service_started
+    ports:
+      - "5081:5080"
+    networks:
+      - dev-network
+    restart: unless-stopped
+  simple-api-2:
+    container_name: simple-api-2
+    image: simple-api:local
+    build:
+      context: ./
+      dockerfile: ./src/Coda.SimpleWebApi/Dockerfile
+    environment:
+      AppInstanceVersion: 2
+      SERILOG__WRITETO__1__NAME: Seq
+      SERILOG__WRITETO__1__ARGS__SERVERURL: http://seq:5341
+    healthcheck:
+      test: curl --fail http://simple-api-2/hc || exit 1
+      interval: 40s
+      timeout: 30s
+      retries: 3
+      start_period: 60s
+    depends_on:
+      seq:
+        condition: service_started
+    ports:
+      - "5082:5080"
+    networks:
+      - dev-network
+    restart: unless-stopped
+  simple-api-3:
+    container_name: simple-api-3
+    image: simple-api:local
+    build:
+      context: ./
+      dockerfile: ./src/Coda.SimpleWebApi/Dockerfile
+    environment:
+      AppInstanceVersion: 3
+      SERILOG__WRITETO__1__NAME: Seq
+      SERILOG__WRITETO__1__ARGS__SERVERURL: http://seq:5341
+    healthcheck:
+      test: curl --fail http://simple-api-3/hc || exit 1
+      interval: 40s
+      timeout: 30s
+      retries: 3
+      start_period: 60s
+    depends_on:
+      seq:
+        condition: service_started
+    ports:
+      - "5083:5080"
+    networks:
+      - dev-network
+    restart: unless-stopped
+  round-robin-api:
+    container_name: round-robin-api
+    image: round-robin-api:local
+    build:
+      context: ./
+      dockerfile: ./src/RoundRobin/Coda.RoundRobin.WebApi/Dockerfile
+    environment:
+      RoundRobinOptions__Endpoints__0: http://host.docker.internal:5081
+      RoundRobinOptions__Endpoints__1: http://host.docker.internal:5082
+      RoundRobinOptions__Endpoints__2: http://host.docker.internal:5083
       SERILOG__WRITETO__1__NAME: Seq
       SERILOG__WRITETO__1__ARGS__SERVERURL: http://seq:5341
     depends_on:
       seq:
         condition: service_started
+      simple-api-1:
+        condition: service_healthy
+      simple-api-2:
+        condition: service_healthy
+      simple-api-3:
+        condition: service_healthy
     ports:
       - "5080:5080"
     networks:
       - dev-network
-    restart: unless-stopped        
+    restart: unless-stopped

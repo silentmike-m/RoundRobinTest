@@ -17,9 +17,13 @@ Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "SimpleApi", "SimpleApi", "{
 EndProject
 Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "RoundRobin", "RoundRobin", "{C94D0325-4991-4BD6-A3F8-D0E8EC5B68DA}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Coda.RoundRobin.WebApi", "..\src\Coda.RoundRobin.WebApi\Coda.RoundRobin.WebApi.csproj", "{E76DDCA5-AC7A-4E17-A746-7B44947CE6BD}"
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Coda.RoundRobin.WebApi", "..\src\RoundRobin\Coda.RoundRobin.WebApi\Coda.RoundRobin.WebApi.csproj", "{E76DDCA5-AC7A-4E17-A746-7B44947CE6BD}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Coda.RoundRobin.Intrastructure", "..\src\Coda.RoundRobin.Intrastructure\Coda.RoundRobin.Intrastructure.csproj", "{3299584F-E909-4B1B-A3F4-765F9E203076}"
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Coda.RoundRobin.Infrastructure", "..\src\RoundRobin\Coda.RoundRobin.Infrastructure\Coda.RoundRobin.Infrastructure.csproj", "{3299584F-E909-4B1B-A3F4-765F9E203076}"
+EndProject
+Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "RoundRobin", "RoundRobin", "{5D3A9136-C123-4371-9051-51688E88CC0B}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Coda.RoundRobin.Infrastructure.UnitTests", "Coda.RoundRobin.Infrastructure.UnitTests\Coda.RoundRobin.Infrastructure.UnitTests.csproj", "{4E96AFEB-6B08-46CD-A3C0-4A77E006EDE7}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
@@ -46,6 +50,10 @@ Global
 		{3299584F-E909-4B1B-A3F4-765F9E203076}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{3299584F-E909-4B1B-A3F4-765F9E203076}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{3299584F-E909-4B1B-A3F4-765F9E203076}.Release|Any CPU.Build.0 = Release|Any CPU
+		{4E96AFEB-6B08-46CD-A3C0-4A77E006EDE7}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{4E96AFEB-6B08-46CD-A3C0-4A77E006EDE7}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{4E96AFEB-6B08-46CD-A3C0-4A77E006EDE7}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{4E96AFEB-6B08-46CD-A3C0-4A77E006EDE7}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(NestedProjects) = preSolution
 		{7B0FCF8E-F2E8-4B25-9666-E58EB6E30D20} = {782161A1-7F21-42EF-8FE0-BE1B17E20A7B}
@@ -55,5 +63,7 @@ Global
 		{C94D0325-4991-4BD6-A3F8-D0E8EC5B68DA} = {782161A1-7F21-42EF-8FE0-BE1B17E20A7B}
 		{E76DDCA5-AC7A-4E17-A746-7B44947CE6BD} = {C94D0325-4991-4BD6-A3F8-D0E8EC5B68DA}
 		{3299584F-E909-4B1B-A3F4-765F9E203076} = {C94D0325-4991-4BD6-A3F8-D0E8EC5B68DA}
+		{5D3A9136-C123-4371-9051-51688E88CC0B} = {CE192907-922A-4D86-A06C-58A717369BE8}
+		{4E96AFEB-6B08-46CD-A3C0-4A77E006EDE7} = {5D3A9136-C123-4371-9051-51688E88CC0B}
 	EndGlobalSection
 EndGlobal

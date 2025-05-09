@@ -21,7 +21,7 @@
     </ItemGroup>
 
     <ItemGroup>
-        <ProjectReference Include="..\Coda.RoundRobin.Intrastructure\Coda.RoundRobin.Intrastructure.csproj" />
+        <ProjectReference Include="..\Coda.RoundRobin.Infrastructure\Coda.RoundRobin.Infrastructure.csproj" />
     </ItemGroup>
 
 </Project>
