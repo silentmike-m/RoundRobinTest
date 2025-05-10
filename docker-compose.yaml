@@ -30,8 +30,9 @@ services:
       AppInstanceVersion: 1
       SERILOG__WRITETO__1__NAME: Seq
       SERILOG__WRITETO__1__ARGS__SERVERURL: http://seq:5341
+      SimpleApiOptions__ThrowExceptions: true
     healthcheck:
-      test: curl --fail http://simple-api-1/hc || exit 1
+      test: curl --fail http://localhost:5081/hc || exit 1
       interval: 5s
       timeout: 5s
       retries: 3
@@ -53,8 +54,9 @@ services:
       AppInstanceVersion: 2
       SERILOG__WRITETO__1__NAME: Seq
       SERILOG__WRITETO__1__ARGS__SERVERURL: http://seq:5341
+      SimpleApiOptions__WaitTimeInSeconds: 30
     healthcheck:
-      test: curl --fail http://simple-api-2/hc || exit 1
+      test: curl --fail http://localhost:5082/hc || exit 1
       interval: 5s
       timeout: 5s
       retries: 3
@@ -77,7 +79,7 @@ services:
       SERILOG__WRITETO__1__NAME: Seq
       SERILOG__WRITETO__1__ARGS__SERVERURL: http://seq:5341
     healthcheck:
-      test: curl --fail http://simple-api-3/hc || exit 1
+      test: curl --fail http://localhost:5083/hc || exit 1
       interval: 5s
       timeout: 5s
       retries: 3
@@ -99,17 +101,25 @@ services:
       RoundRobinOptions__Endpoints__0: http://host.docker.internal:5081
       RoundRobinOptions__Endpoints__1: http://host.docker.internal:5082
       RoundRobinOptions__Endpoints__2: http://host.docker.internal:5083
+      RoundRobinOptions__MaxRetries: 5
+      RoundRobinOptions__RetryDelayInSeconds__0: 1
+      RoundRobinOptions__RetryDelayInSeconds__1: 2
+      RoundRobinOptions__RetryDelayInSeconds__2: 5
+      RoundRobinOptions__RetryDelayInSeconds__3: 10
+      RoundRobinOptions__RetryDelayInSeconds__4: 30
+      RoundRobinOptions__RetryDelayInSeconds__5: 60
+      RoundRobinOptions__RetryTimeoutInSeconds: 20
       SERILOG__WRITETO__1__NAME: Seq
       SERILOG__WRITETO__1__ARGS__SERVERURL: http://seq:5341
     depends_on:
       seq:
         condition: service_started
       simple-api-1:
-        condition: service_healthy
+        condition: service_started
       simple-api-2:
-        condition: service_healthy
+        condition: service_started
       simple-api-3:
-        condition: service_healthy
+        condition: service_started
     ports:
       - "5080:5080"
     networks:

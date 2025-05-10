@@ -15,6 +15,8 @@ internal static class DependencyInjection
 
         services.AddScoped<IRoundRobinService, RoundRobinService>();
 
+        services.AddScoped<IRetryPolicyFactory, RetryPolicyFactory>();
+
         services.AddSingleton<IEndpointResolver, EndpointResolver>();
 
         services.AddHttpClient();

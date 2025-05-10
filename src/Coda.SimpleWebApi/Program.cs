@@ -1,3 +1,4 @@
+using Coda.SimpleWebApi;
 using Coda.SimpleWebApi.Constants;
 using Coda.SimpleWebApi.Extensions;
 using Microsoft.AspNetCore.Diagnostics.HealthChecks;
@@ -41,6 +42,8 @@ builder.Services.ConfigureSwaggerGen(options =>
 builder.Services.AddSwaggerGen();
 
 builder.Services.AddControllers();
+
+builder.Services.Configure<SimpleApiOptions>(builder.Configuration.GetSection(nameof(SimpleApiOptions)));
 
 try
 {
