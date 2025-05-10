@@ -1,6 +1,7 @@
 ﻿namespace Coda.RoundRobin.Infrastructure.RoundRobin.Services;
 
 using System.Net.Http.Json;
+using System.Text.Json;
 using System.Text.Json.Nodes;
 using Coda.RoundRobin.Infrastructure.RoundRobin.Exception;
 using Coda.RoundRobin.Infrastructure.RoundRobin.Interfaces;
@@ -38,7 +39,7 @@ internal sealed class RoundRobinService : IRoundRobinService
 
             if (response.IsSuccessStatusCode is false)
             {
-                throw new InvalidResponseException(endpoint, response.StatusCode);
+                throw new InvalidResponseCodeException(endpoint, response.StatusCode);
             }
 
             var result = await response.Content.ReadFromJsonAsync<JsonObject>(cancellationToken);
@@ -50,9 +51,13 @@ internal sealed class RoundRobinService : IRoundRobinService
 
             return result;
         }
+        catch (JsonException exception)
+        {
+            throw new InvalidResponseException(endpoint, exception);
+        }
         catch (HttpRequestException exception)
         {
-            throw new InvalidResponseException(endpoint, exception.StatusCode?.ToString() ?? @"n\a", exception);
+            throw new InvalidResponseCodeException(endpoint, exception.StatusCode?.ToString() ?? @"n\a", exception);
         }
     }
 }
