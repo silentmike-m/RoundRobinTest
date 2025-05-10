@@ -1,6 +1,7 @@
 using Coda.RoundRobin.Infrastructure;
 using Coda.RoundRobin.WebApi.Constants;
 using Coda.RoundRobin.WebApi.Extensions;
+using Coda.RoundRobin.WebApi.Filters;
 using Microsoft.AspNetCore.Diagnostics.HealthChecks;
 using Serilog;
 
@@ -37,7 +38,7 @@ builder.Services.ConfigureSwaggerGen(options =>
 
 builder.Services.AddSwaggerGen();
 
-builder.Services.AddControllers();
+builder.Services.AddControllers(options => options.Filters.Add<ApiExceptionFilterAttribute>());
 
 try
 {

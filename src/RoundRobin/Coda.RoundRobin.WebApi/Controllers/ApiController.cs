@@ -26,7 +26,7 @@ public sealed class ApiController : ControllerBase
         return this.Ok(result);
     }
 
-    [Route("post"), HttpPost, ProducesResponseType(typeof(JsonObject), StatusCodes.Status200OK)]
+    [Route("post"), HttpPost, ProducesResponseType(typeof(JsonObject), StatusCodes.Status200OK), ProducesResponseType(typeof(ProblemDetails), StatusCodes.Status400BadRequest)]
     public async Task<IActionResult> Post([FromBody] JsonObject value, CancellationToken cancellationToken)
     {
         this.logger.LogInformation("Received post request");

@@ -2,6 +2,7 @@
 
 using System.Net.Http.Json;
 using System.Text.Json.Nodes;
+using Coda.RoundRobin.Infrastructure.RoundRobin.Exception;
 using Coda.RoundRobin.Infrastructure.RoundRobin.Interfaces;
 using Microsoft.Extensions.Options;
 
@@ -27,14 +28,31 @@ internal sealed class RoundRobinService : IRoundRobinService
     {
         var endpoint = this.endpointResolver.GetNextEndpoint();
 
-        using var httpClient = this.httpClientFactory.CreateClient();
+        try
+        {
+            using var httpClient = this.httpClientFactory.CreateClient();
 
-        httpClient.BaseAddress = endpoint;
+            httpClient.BaseAddress = endpoint;
 
-        var response = await httpClient.PostAsJsonAsync(POST_ENDPOINT, request, cancellationToken);
+            var response = await httpClient.PostAsJsonAsync(POST_ENDPOINT, request, cancellationToken);
 
-        response.EnsureSuccessStatusCode();
+            if (response.IsSuccessStatusCode is false)
+            {
+                throw new InvalidResponseException(endpoint, response.StatusCode);
+            }
 
-        return await response.Content.ReadFromJsonAsync<JsonObject>(cancellationToken);
+            var result = await response.Content.ReadFromJsonAsync<JsonObject>(cancellationToken);
+
+            if (result is null)
+            {
+                throw new EmptyResponseException(endpoint);
+            }
+
+            return result;
+        }
+        catch (HttpRequestException exception)
+        {
+            throw new InvalidResponseException(endpoint, exception.StatusCode?.ToString() ?? @"n\a", exception);
+        }
     }
 }

@@ -32,10 +32,9 @@ services:
       SERILOG__WRITETO__1__ARGS__SERVERURL: http://seq:5341
     healthcheck:
       test: curl --fail http://simple-api-1/hc || exit 1
-      interval: 40s
-      timeout: 30s
+      interval: 5s
+      timeout: 5s
       retries: 3
-      start_period: 60s
     depends_on:
       seq:
         condition: service_started
@@ -56,10 +55,9 @@ services:
       SERILOG__WRITETO__1__ARGS__SERVERURL: http://seq:5341
     healthcheck:
       test: curl --fail http://simple-api-2/hc || exit 1
-      interval: 40s
-      timeout: 30s
+      interval: 5s
+      timeout: 5s
       retries: 3
-      start_period: 60s
     depends_on:
       seq:
         condition: service_started
@@ -80,10 +78,9 @@ services:
       SERILOG__WRITETO__1__ARGS__SERVERURL: http://seq:5341
     healthcheck:
       test: curl --fail http://simple-api-3/hc || exit 1
-      interval: 40s
-      timeout: 30s
+      interval: 5s
+      timeout: 5s
       retries: 3
-      start_period: 60s
     depends_on:
       seq:
         condition: service_started
