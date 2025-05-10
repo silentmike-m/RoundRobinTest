@@ -75,7 +75,7 @@ public sealed class RoundRobinServiceTests
                 Content = JsonContent.Create(request),
             });
 
-        var roundRobinService = new RoundRobinService(this.endpointResolverMock.Object, this.httpClientFactoryMock.Object, this.logger, Options.Create(this.options), this.retryPolicyFactory);
+        var roundRobinService = new RoundRobinService(this.endpointResolverMock.Object, this.httpClientFactoryMock.Object, this.logger, this.retryPolicyFactory);
 
         // Act
         var response = await roundRobinService.PostAsync(JsonNode.Parse(requestJson)!.AsObject(), CancellationToken.None);
@@ -115,7 +115,7 @@ public sealed class RoundRobinServiceTests
                 Content = JsonContent.Create(request),
             });
 
-        var roundRobinService = new RoundRobinService(this.endpointResolverMock.Object, this.httpClientFactoryMock.Object, this.logger, Options.Create(this.options), this.retryPolicyFactory);
+        var roundRobinService = new RoundRobinService(this.endpointResolverMock.Object, this.httpClientFactoryMock.Object, this.logger, this.retryPolicyFactory);
 
         // Act
         var response = await roundRobinService.PostAsync(JsonNode.Parse(requestJson)!.AsObject(), CancellationToken.None);
@@ -158,7 +158,7 @@ public sealed class RoundRobinServiceTests
                 Content = JsonContent.Create(request),
             });
 
-        var roundRobinService = new RoundRobinService(this.endpointResolverMock.Object, this.httpClientFactoryMock.Object, this.logger, Options.Create(this.options), this.retryPolicyFactory);
+        var roundRobinService = new RoundRobinService(this.endpointResolverMock.Object, this.httpClientFactoryMock.Object, this.logger, this.retryPolicyFactory);
 
         // Act
         var action = async () => await roundRobinService.PostAsync(JsonNode.Parse(requestJson)!.AsObject(), CancellationToken.None);
@@ -191,7 +191,7 @@ public sealed class RoundRobinServiceTests
             .Setup<Task<HttpResponseMessage>>("SendAsync", ItExpr.Is<HttpRequestMessage>(m => m.Method == HttpMethod.Post), ItExpr.IsAny<CancellationToken>())
             .Throws<HttpRequestException>();
 
-        var roundRobinService = new RoundRobinService(this.endpointResolverMock.Object, this.httpClientFactoryMock.Object, this.logger, Options.Create(this.options), this.retryPolicyFactory);
+        var roundRobinService = new RoundRobinService(this.endpointResolverMock.Object, this.httpClientFactoryMock.Object, this.logger, this.retryPolicyFactory);
 
         // Act
         var action = async () => await roundRobinService.PostAsync(JsonNode.Parse(requestJson)!.AsObject(), CancellationToken.None);
@@ -227,7 +227,7 @@ public sealed class RoundRobinServiceTests
                 Content = null,
             });
 
-        var roundRobinService = new RoundRobinService(this.endpointResolverMock.Object, this.httpClientFactoryMock.Object, this.logger, Options.Create(this.options), this.retryPolicyFactory);
+        var roundRobinService = new RoundRobinService(this.endpointResolverMock.Object, this.httpClientFactoryMock.Object, this.logger, this.retryPolicyFactory);
 
         // Act
         var action = async () => await roundRobinService.PostAsync(JsonNode.Parse(requestJson)!.AsObject(), CancellationToken.None);

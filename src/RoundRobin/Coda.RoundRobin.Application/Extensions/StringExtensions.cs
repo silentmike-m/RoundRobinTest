@@ -1,8 +1,8 @@
-﻿namespace Coda.RoundRobin.Infrastructure.Extensions;
+﻿namespace Coda.RoundRobin.Application.Extensions;
 
 using System.Text.Json;
 
-internal static class StringExtensions
+public static class StringExtensions
 {
     private static readonly JsonSerializerOptions DEFAULT_JSON_SERIALIZER_OPTIONS = new()
     {

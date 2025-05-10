@@ -4,10 +4,10 @@ using System.Net;
 using System.Net.Http.Json;
 using System.Text.Json;
 using System.Text.Json.Nodes;
+using Coda.RoundRobin.Application.RoundRobin.Interfaces;
 using Coda.RoundRobin.Infrastructure.RoundRobin.Exception;
 using Coda.RoundRobin.Infrastructure.RoundRobin.Interfaces;
 using Microsoft.Extensions.Logging;
-using Microsoft.Extensions.Options;
 
 internal sealed class RoundRobinService : IRoundRobinService
 {
@@ -17,20 +17,15 @@ internal sealed class RoundRobinService : IRoundRobinService
     private readonly IEndpointResolver endpointResolver;
     private readonly IHttpClientFactory httpClientFactory;
     private readonly ILogger<RoundRobinService> logger;
-    private readonly RoundRobinOptions options;
     private readonly IRetryPolicyFactory retryPolicyFactory;
 
-    public RoundRobinService(IEndpointResolver endpointResolver, IHttpClientFactory httpClientFactory, ILogger<RoundRobinService> logger, IOptions<RoundRobinOptions> options, IRetryPolicyFactory retryPolicyFactory)
+    public RoundRobinService(IEndpointResolver endpointResolver, IHttpClientFactory httpClientFactory, ILogger<RoundRobinService> logger, IRetryPolicyFactory retryPolicyFactory)
     {
         this.endpointResolver = endpointResolver;
         this.httpClientFactory = httpClientFactory;
         this.logger = logger;
-        this.options = options.Value;
         this.retryPolicyFactory = retryPolicyFactory;
     }
-
-    public IReadOnlyList<Uri> GetEndpoints()
-        => this.options.Endpoints;
 
     public async Task<JsonObject> PostAsync(JsonObject request, CancellationToken cancellationToken)
     {

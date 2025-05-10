@@ -1,9 +1,9 @@
 ﻿namespace Coda.RoundRobin.Infrastructure.Cache.Services;
 
 using System.Text;
+using Coda.RoundRobin.Application.Extensions;
 using Coda.RoundRobin.Infrastructure.Cache.Interfaces;
 using Coda.RoundRobin.Infrastructure.Cache.Models;
-using Coda.RoundRobin.Infrastructure.Extensions;
 using Microsoft.Extensions.Caching.Distributed;
 using Microsoft.Extensions.Logging;
 

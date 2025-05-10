@@ -1,4 +1,4 @@
-﻿namespace Coda.RoundRobin.Infrastructure.Extensions;
+﻿namespace Coda.RoundRobin.Application.Extensions;
 
 using System.Text.Json;
 

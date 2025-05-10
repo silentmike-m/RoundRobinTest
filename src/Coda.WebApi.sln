@@ -9,6 +9,8 @@ Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Coda.RoundRobin.WebApi", "R
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Coda.RoundRobin.Infrastructure", "RoundRobin\Coda.RoundRobin.Infrastructure\Coda.RoundRobin.Infrastructure.csproj", "{049524DA-C22C-4EF7-AB35-BF86C833E04B}"
 EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Coda.RoundRobin.Application", "RoundRobin\Coda.RoundRobin.Application\Coda.RoundRobin.Application.csproj", "{D300B8B8-6B34-43E8-B1C6-7935724B6A0F}"
+EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|Any CPU = Debug|Any CPU
@@ -30,5 +32,9 @@ Global
 		{049524DA-C22C-4EF7-AB35-BF86C833E04B}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{049524DA-C22C-4EF7-AB35-BF86C833E04B}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{049524DA-C22C-4EF7-AB35-BF86C833E04B}.Release|Any CPU.Build.0 = Release|Any CPU
+		{D300B8B8-6B34-43E8-B1C6-7935724B6A0F}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{D300B8B8-6B34-43E8-B1C6-7935724B6A0F}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{D300B8B8-6B34-43E8-B1C6-7935724B6A0F}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{D300B8B8-6B34-43E8-B1C6-7935724B6A0F}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 EndGlobal

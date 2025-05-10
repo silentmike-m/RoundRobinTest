@@ -1,3 +1,4 @@
+using Coda.RoundRobin.Application;
 using Coda.RoundRobin.Infrastructure;
 using Coda.RoundRobin.WebApi.Constants;
 using Coda.RoundRobin.WebApi.Extensions;
@@ -29,7 +30,9 @@ builder.Services
 
 builder.Services.AddEndpointsApiExplorer();
 
-builder.Services.AddInfrastructure(builder.Configuration, builder.Environment);
+builder.Services
+    .AddApplication()
+    .AddInfrastructure(builder.Configuration, builder.Environment);
 
 builder.Services.ConfigureSwaggerGen(options =>
 {

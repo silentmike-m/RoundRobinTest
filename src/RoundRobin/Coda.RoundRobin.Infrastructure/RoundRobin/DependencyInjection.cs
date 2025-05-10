@@ -1,6 +1,7 @@
 ﻿namespace Coda.RoundRobin.Infrastructure.RoundRobin;
 
 using System.Diagnostics.CodeAnalysis;
+using Coda.RoundRobin.Application.RoundRobin.Interfaces;
 using Coda.RoundRobin.Infrastructure.RoundRobin.Interfaces;
 using Coda.RoundRobin.Infrastructure.RoundRobin.Services;
 using Microsoft.Extensions.Configuration;

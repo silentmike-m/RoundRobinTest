@@ -2,6 +2,7 @@
 
 using System.Diagnostics.CodeAnalysis;
 using System.Net.Mime;
+using Coda.RoundRobin.Application.Common;
 using Coda.RoundRobin.Infrastructure.Common;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Mvc.Filters;
@@ -20,8 +21,17 @@ internal sealed class ApiExceptionFilterAttribute : ExceptionFilterAttribute
 
         switch (context.Exception)
         {
-            case InfrastructureException applicationException:
-                HandleInfrastructureException(context, applicationException);
+            case ValidationException validationException:
+                HandleValidationException(context, validationException);
+
+                break;
+
+            case InfrastructureException infrastructureException:
+                HandleInfrastructureException(context, infrastructureException);
+
+                break;
+            case ApplicationException applicationException:
+                HandleApplicationException(context, applicationException);
 
                 break;
             default:
@@ -33,11 +43,14 @@ internal sealed class ApiExceptionFilterAttribute : ExceptionFilterAttribute
         base.OnException(context);
     }
 
-    private static void HandleInfrastructureException(ExceptionContext context, InfrastructureException exception)
+    private static void HandleApplicationException(ExceptionContext context, ApplicationException exception)
+        => HandleException(context, exception.Code, exception, StatusCodes.Status500InternalServerError);
+
+    private static void HandleException(ExceptionContext context, string code, Exception exception, int statusCode)
     {
         var response = new
         {
-            exception.Code,
+            code,
             Error = exception.Message,
             Response = exception.InnerException?.Message ?? exception.Message,
         };
@@ -48,14 +61,40 @@ internal sealed class ApiExceptionFilterAttribute : ExceptionFilterAttribute
             [
                 MediaTypeNames.Application.Json,
             ],
-            StatusCode = StatusCodes.Status500InternalServerError,
+            StatusCode = statusCode,
         };
 
         context.ExceptionHandled = true;
     }
 
+    private static void HandleInfrastructureException(ExceptionContext context, InfrastructureException exception)
+        => HandleException(context, exception.Code, exception, StatusCodes.Status500InternalServerError);
+
     private static void HandleUnknownException(ExceptionContext context)
     {
         context.ExceptionHandled = false;
+    }
+
+    private static void HandleValidationException(ExceptionContext context, ValidationException exception)
+    {
+        {
+            var response = new
+            {
+                exception.Code,
+                Error = exception.Message,
+                Response = exception.Errors,
+            };
+
+            context.Result = new ObjectResult(response)
+            {
+                ContentTypes =
+                [
+                    MediaTypeNames.Application.Json,
+                ],
+                StatusCode = StatusCodes.Status400BadRequest,
+            };
+
+            context.ExceptionHandled = true;
+        }
     }
 }

@@ -1,9 +1,8 @@
-﻿namespace Coda.RoundRobin.Infrastructure.RoundRobin.Interfaces;
+﻿namespace Coda.RoundRobin.Application.RoundRobin.Interfaces;
 
 using System.Text.Json.Nodes;
 
 public interface IRoundRobinService
 {
-    public IReadOnlyList<Uri> GetEndpoints();
     public Task<JsonObject> PostAsync(JsonObject request, CancellationToken cancellationToken);
 }
