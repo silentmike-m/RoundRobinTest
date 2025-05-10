@@ -34,7 +34,7 @@ internal sealed class RoundRobinService : IRoundRobinService
 
     public async Task<JsonObject> PostAsync(JsonObject request, CancellationToken cancellationToken)
     {
-        var endpoint = this.endpointResolver.GetNextEndpoint();
+        var endpoint = await this.endpointResolver.GetNextEndpointAsync(cancellationToken);
 
         try
         {

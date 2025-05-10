@@ -2,5 +2,5 @@
 
 internal interface IEndpointResolver
 {
-    public Uri GetNextEndpoint();
+    public Task<Uri> GetNextEndpointAsync(CancellationToken cancellationToken);
 }

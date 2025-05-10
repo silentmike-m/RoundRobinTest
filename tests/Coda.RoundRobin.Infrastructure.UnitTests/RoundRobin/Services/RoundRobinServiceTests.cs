@@ -35,8 +35,8 @@ public sealed class RoundRobinServiceTests
     public RoundRobinServiceTests()
     {
         this.endpointResolverMock
-            .Setup(service => service.GetNextEndpoint())
-            .Returns(ENDPOINT);
+            .Setup(service => service.GetNextEndpointAsync(It.IsAny<CancellationToken>()))
+            .ReturnsAsync(ENDPOINT);
 
         this.retryPolicyFactory = new RetryPolicyFactory(Options.Create(this.options));
     }

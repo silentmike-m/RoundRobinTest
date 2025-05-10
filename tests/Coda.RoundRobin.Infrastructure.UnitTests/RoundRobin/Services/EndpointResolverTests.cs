@@ -1,17 +1,22 @@
 ﻿namespace Coda.RoundRobin.Infrastructure.UnitTests.RoundRobin.Services;
 
+using Coda.RoundRobin.Infrastructure.Cache.Interfaces;
+using Coda.RoundRobin.Infrastructure.Cache.Models;
 using Coda.RoundRobin.Infrastructure.RoundRobin;
 using Coda.RoundRobin.Infrastructure.RoundRobin.Services;
 using FluentAssertions;
 using Microsoft.Extensions.Options;
+using Moq;
 
 [TestClass]
 public sealed class EndpointResolverTests
 {
     [TestMethod]
-    public void GetNextEndpoint_Should_ReturnEndpointsInProperOrder()
+    public async Task GetNextEndpoint_Should_ReturnEndpointsInProperOrder()
     {
         // Arrange
+        var index = 0;
+
         var roundRobinOptions = new RoundRobinOptions
         {
             Endpoints =
@@ -22,13 +27,23 @@ public sealed class EndpointResolverTests
             ],
         };
 
-        var service = new EndpointResolver(Options.Create(roundRobinOptions));
+        var cacheService = new Mock<ICacheService>();
+
+        cacheService
+            .Setup(service => service.GetAsync(It.IsAny<CurrentEndpointIndexCacheKey>(), It.IsAny<CancellationToken>()))
+            .Returns(() => Task.FromResult(index));
+
+        cacheService
+            .Setup(service => service.SetAsync(It.IsAny<CacheKey<int>>(), It.IsAny<int>(), It.IsAny<TimeSpan>(), It.IsAny<CancellationToken>()))
+            .Callback<CacheKey<int>, int, TimeSpan, CancellationToken>((_, currentIndex, _, _) => index = currentIndex);
+
+        var service = new EndpointResolver(cacheService.Object, Options.Create(roundRobinOptions));
 
         // Act
-        var endpoint01 = service.GetNextEndpoint();
-        var endpoint02 = service.GetNextEndpoint();
-        var endpoint03 = service.GetNextEndpoint();
-        var endpoint04 = service.GetNextEndpoint();
+        var endpoint01 = await service.GetNextEndpointAsync(CancellationToken.None);
+        var endpoint02 = await service.GetNextEndpointAsync(CancellationToken.None);
+        var endpoint03 = await service.GetNextEndpointAsync(CancellationToken.None);
+        var endpoint04 = await service.GetNextEndpointAsync(CancellationToken.None);
 
         // Assert
         endpoint01.Should()

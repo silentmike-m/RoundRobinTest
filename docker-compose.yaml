@@ -5,6 +5,15 @@ volumes:
   seqdata:
     external: true
 services:
+  redis:
+    container_name: redis
+    image: redis:latest
+    command: redis-server --requirepass P@ssw0rd
+    ports:
+      - "6379:6379"
+    networks:
+      - dev-network
+    restart: unless-stopped
   seq:
     container_name: seq
     image: datalust/seq
@@ -98,6 +107,9 @@ services:
       context: ./
       dockerfile: ./src/RoundRobin/Coda.RoundRobin.WebApi/Dockerfile
     environment:
+      RedisOptions__Server: "redis:6379"
+      RedisOptions__Password: "P@ssw0rd"
+      RedisOptions__InstanceName: "Develop"
       RoundRobinOptions__Endpoints__0: http://host.docker.internal:5081
       RoundRobinOptions__Endpoints__1: http://host.docker.internal:5082
       RoundRobinOptions__Endpoints__2: http://host.docker.internal:5083

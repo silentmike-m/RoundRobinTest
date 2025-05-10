@@ -29,7 +29,7 @@ builder.Services
 
 builder.Services.AddEndpointsApiExplorer();
 
-builder.Services.AddInfrastructure(builder.Configuration);
+builder.Services.AddInfrastructure(builder.Configuration, builder.Environment);
 
 builder.Services.ConfigureSwaggerGen(options =>
 {

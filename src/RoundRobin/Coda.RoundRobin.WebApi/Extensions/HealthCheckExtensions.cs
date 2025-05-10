@@ -1,6 +1,7 @@
 ﻿namespace Coda.RoundRobin.WebApi.Extensions;
 
 using System.Net.Mime;
+using Coda.RoundRobin.Infrastructure.Extensions;
 using Microsoft.Extensions.Diagnostics.HealthChecks;
 
 internal static class HealthCheckExtensions

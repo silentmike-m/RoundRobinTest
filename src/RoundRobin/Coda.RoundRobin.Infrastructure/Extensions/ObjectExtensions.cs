@@ -1,8 +1,8 @@
-﻿namespace Coda.RoundRobin.WebApi.Extensions;
+﻿namespace Coda.RoundRobin.Infrastructure.Extensions;
 
 using System.Text.Json;
 
-internal static class ObjectExtensions
+public static class ObjectExtensions
 {
     private static JsonSerializerOptions WRITE_RAW_JSON_SERIALIZER_OPTIONS = new()
     {
