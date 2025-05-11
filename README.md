@@ -1,6 +1,18 @@
 # Round Robin
 
-## Req
+# Table of Contents
+1. [Requirements](#requirements)
+2. [Run application](#run-application)
+3. [Simple API](#simple-aPI)
+   * [Simple API throw exception](#simple-api-throw-exception)
+   * [Simple API delay](#simple-api-delay)
+4. [Round Robin API](#round-robin-api)
+   * [Round Robin API Redis](#round-robin-api-redis)
+   * [Round Robin API retry policy](#round-robin-api-retry-policy)
+5. [Logs](#logs)
+   * [Simple API receive request log](#simple-api-receive-request-log)
+
+## Requirements
 
 * .NET 8
 * Docker
