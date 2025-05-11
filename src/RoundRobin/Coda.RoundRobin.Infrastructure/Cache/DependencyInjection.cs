@@ -15,22 +15,13 @@ internal static class DependencyInjection
 
         services.AddSingleton(redisOptions);
 
-        if (environment.IsDevelopment())
+        services.AddStackExchangeRedisCache(options =>
         {
-            services.AddMemoryCache();
+            options.Configuration = redisOptions.ConnectionString;
+            options.InstanceName = redisOptions.InstanceName;
+        });
 
-            services.AddScoped<ICacheService, CacheServiceMock>();
-        }
-        else
-        {
-            services.AddStackExchangeRedisCache(options =>
-            {
-                options.Configuration = redisOptions.ConnectionString;
-                options.InstanceName = redisOptions.InstanceName;
-            });
-
-            services.AddScoped<ICacheService, CacheService>();
-        }
+        services.AddScoped<ICacheService, CacheService>();
 
         return services;
     }

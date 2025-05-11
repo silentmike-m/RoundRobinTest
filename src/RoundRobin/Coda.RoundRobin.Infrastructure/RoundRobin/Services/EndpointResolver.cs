@@ -24,7 +24,7 @@ internal sealed class EndpointResolver : IEndpointResolver
 
         var result = this.roundRobinOptions.Endpoints[index];
 
-        if (index == this.roundRobinOptions.Endpoints.Count - 1)
+        if (index >= this.roundRobinOptions.Endpoints.Count - 1)
         {
             index = 0;
         }
@@ -33,7 +33,7 @@ internal sealed class EndpointResolver : IEndpointResolver
             index++;
         }
 
-        await this.cacheService.SetAsync(cacheKey, index, TimeSpan.MaxValue, cancellationToken);
+        await this.cacheService.SetAsync(cacheKey, index, keyTimeoutInMinutes: null, cancellationToken);
 
         return result;
     }

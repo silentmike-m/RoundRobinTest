@@ -34,7 +34,7 @@ public sealed class EndpointResolverTests
             .Returns(() => Task.FromResult(index));
 
         cacheService
-            .Setup(service => service.SetAsync(It.IsAny<CacheKey<int>>(), It.IsAny<int>(), It.IsAny<TimeSpan>(), It.IsAny<CancellationToken>()))
+            .Setup(service => service.SetAsync(It.IsAny<CacheKey<int>>(), It.IsAny<int>(), null, It.IsAny<CancellationToken>()))
             .Callback<CacheKey<int>, int, TimeSpan, CancellationToken>((_, currentIndex, _, _) => index = currentIndex);
 
         var service = new EndpointResolver(cacheService.Object, Options.Create(roundRobinOptions));

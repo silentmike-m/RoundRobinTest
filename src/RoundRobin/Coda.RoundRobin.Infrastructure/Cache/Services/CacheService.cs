@@ -57,14 +57,35 @@ internal sealed class CacheService : ICacheService
         }
     }
 
-    public async Task SetAsync<TResponse>(CacheKey<TResponse> key, TResponse value, int keyTimeoutInMinutes, CancellationToken cancellationToken)
-        => await this.SetAsync(key, value, TimeSpan.FromMinutes(keyTimeoutInMinutes), cancellationToken);
-
     public async Task SetAsync<TResponse>(CacheKey<TResponse> key, TResponse value, TimeSpan keyTimeout, CancellationToken cancellationToken)
     {
         try
         {
             var options = new DistributedCacheEntryOptions().SetAbsoluteExpiration(keyTimeout);
+
+            var json = value.ToJson();
+            var bytes = Encoding.UTF8.GetBytes(json);
+
+            var keyString = key.ToString();
+
+            await this.cache.SetAsync(keyString, bytes, options, cancellationToken);
+        }
+        catch (Exception exception)
+        {
+            this.logger.LogWarning(exception, "Error on set cache key");
+        }
+    }
+
+    public async Task SetAsync<TResponse>(CacheKey<TResponse> key, TResponse value, int? keyTimeoutInMinutes, CancellationToken cancellationToken)
+    {
+        try
+        {
+            var options = new DistributedCacheEntryOptions();
+
+            if (keyTimeoutInMinutes.HasValue)
+            {
+                options.SetAbsoluteExpiration(TimeSpan.FromMinutes(keyTimeoutInMinutes.Value));
+            }
 
             var json = value.ToJson();
             var bytes = Encoding.UTF8.GetBytes(json);

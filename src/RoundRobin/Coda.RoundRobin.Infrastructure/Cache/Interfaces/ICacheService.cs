@@ -6,6 +6,5 @@ internal interface ICacheService
 {
     Task ClearAsync<TResponse>(CacheKey<TResponse> key, CancellationToken cancellationToken);
     Task<TResponse?> GetAsync<TResponse>(CacheKey<TResponse> key, CancellationToken cancellationToken);
-    Task SetAsync<TResponse>(CacheKey<TResponse> key, TResponse value, int keyTimeoutInMinutes, CancellationToken cancellationToken);
-    Task SetAsync<TResponse>(CacheKey<TResponse> key, TResponse value, TimeSpan keyTimeout, CancellationToken cancellationToken);
+    Task SetAsync<TResponse>(CacheKey<TResponse> key, TResponse value, int? keyTimeoutInMinutes, CancellationToken cancellationToken);
 }

@@ -39,7 +39,6 @@ services:
       AppInstanceVersion: 1
       SERILOG__WRITETO__1__NAME: Seq
       SERILOG__WRITETO__1__ARGS__SERVERURL: http://seq:5341
-      SimpleApiOptions__ThrowExceptions: true
     healthcheck:
       test: curl --fail http://localhost:5081/hc || exit 1
       interval: 5s
@@ -56,14 +55,10 @@ services:
   simple-api-2:
     container_name: simple-api-2
     image: simple-api:local
-    build:
-      context: ./
-      dockerfile: ./src/Coda.SimpleWebApi/Dockerfile
     environment:
       AppInstanceVersion: 2
       SERILOG__WRITETO__1__NAME: Seq
       SERILOG__WRITETO__1__ARGS__SERVERURL: http://seq:5341
-      SimpleApiOptions__WaitTimeInSeconds: 30
     healthcheck:
       test: curl --fail http://localhost:5082/hc || exit 1
       interval: 5s
@@ -80,9 +75,6 @@ services:
   simple-api-3:
     container_name: simple-api-3
     image: simple-api:local
-    build:
-      context: ./
-      dockerfile: ./src/Coda.SimpleWebApi/Dockerfile
     environment:
       AppInstanceVersion: 3
       SERILOG__WRITETO__1__NAME: Seq
