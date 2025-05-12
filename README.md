@@ -68,6 +68,11 @@ Round Robin API uses retry policy.
 * <strong>RetryDelayInSeconds</strong> defines retry delays in seconds array. Retry policy will loop through the array according to <strong>MaxRetries</strong>, after reached the end of array it will start from the beginning.
 * <strong>RetryTimeoutInSeconds</strong> defines maximum retry policy timeout. Retry policy execution will be cancelled after this time. 
 
+### Round Robin API endpoint status
+
+After starting application executes health check for each defined simple api, every 30 seconds.<br>
+Based on health check result endpoints cache is updated.<br>
+Round robin algorithm will skip unhealthy endpoints.
 
 ## Logs
 

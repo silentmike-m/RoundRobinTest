@@ -5,6 +5,7 @@ using System.Reflection;
 using Coda.RoundRobin.Infrastructure.Cache;
 using Coda.RoundRobin.Infrastructure.HealthChecks;
 using Coda.RoundRobin.Infrastructure.RoundRobin;
+using Coda.RoundRobin.Infrastructure.RoundRobin.Interfaces;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Hosting;
@@ -23,5 +24,14 @@ public static class DependencyInjection
             .AddRoundRobin(configuration);
 
         return services;
+    }
+
+    public static void UseInfrastructure(this IServiceProvider serviceProvider)
+    {
+        var endpointResolver = serviceProvider.GetRequiredService<IEndpointResolver>();
+
+        endpointResolver.InitializeEndpointsAsync(CancellationToken.None)
+            .GetAwaiter()
+            .GetResult();
     }
 }

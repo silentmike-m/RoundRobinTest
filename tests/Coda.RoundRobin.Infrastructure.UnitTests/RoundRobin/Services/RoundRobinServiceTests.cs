@@ -5,8 +5,10 @@ using System.Net.Http.Json;
 using System.Text.Json;
 using System.Text.Json.Nodes;
 using Coda.RoundRobin.Infrastructure.RoundRobin;
+using Coda.RoundRobin.Infrastructure.RoundRobin.Enums;
 using Coda.RoundRobin.Infrastructure.RoundRobin.Exception;
 using Coda.RoundRobin.Infrastructure.RoundRobin.Interfaces;
+using Coda.RoundRobin.Infrastructure.RoundRobin.Models;
 using Coda.RoundRobin.Infrastructure.RoundRobin.Services;
 using FluentAssertions;
 using Microsoft.Extensions.Logging.Abstractions;
@@ -17,7 +19,12 @@ using Moq.Protected;
 [TestClass]
 public sealed class RoundRobinServiceTests
 {
-    private static readonly Uri ENDPOINT = new("http://test.domain.com");
+    private static readonly Endpoint ENDPOINT = new()
+    {
+        Uri = new Uri("http://test.domain.com"),
+        Name = "test-01",
+        Status = EndpointStatus.Healthy,
+    };
 
     private readonly Mock<IEndpointResolver> endpointResolverMock = new();
     private readonly NullLogger<RoundRobinService> logger = new();
@@ -82,7 +89,7 @@ public sealed class RoundRobinServiceTests
 
         // Assert
         httpClient.BaseAddress.Should()
-            .Be(ENDPOINT);
+            .Be(ENDPOINT.Uri);
 
         response.ToJsonString().Should()
             .Be(requestJson);
@@ -122,7 +129,7 @@ public sealed class RoundRobinServiceTests
 
         // Assert
         httpClient.BaseAddress.Should()
-            .Be(ENDPOINT);
+            .Be(ENDPOINT.Uri);
 
         response.ToJsonString().Should()
             .Be(requestJson);

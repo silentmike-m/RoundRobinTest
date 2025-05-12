@@ -102,9 +102,9 @@ services:
       RedisOptions__Server: "redis:6379"
       RedisOptions__Password: "P@ssw0rd"
       RedisOptions__InstanceName: "Develop"
-      RoundRobinOptions__Endpoints__0: http://host.docker.internal:5081
-      RoundRobinOptions__Endpoints__1: http://host.docker.internal:5082
-      RoundRobinOptions__Endpoints__2: http://host.docker.internal:5083
+      RoundRobinOptions__Endpoints__api-1: "http://host.docker.internal:5081"
+      RoundRobinOptions__Endpoints__api-2: "http://host.docker.internal:5082"
+      RoundRobinOptions__Endpoints__api-3: "http://host.docker.internal:5083"
       RoundRobinOptions__MaxRetries: 5
       RoundRobinOptions__RetryDelayInSeconds__0: 1
       RoundRobinOptions__RetryDelayInSeconds__1: 2
