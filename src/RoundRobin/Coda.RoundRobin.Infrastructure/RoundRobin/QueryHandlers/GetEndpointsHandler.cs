@@ -1,25 +1,36 @@
 ﻿namespace Coda.RoundRobin.Infrastructure.RoundRobin.QueryHandlers;
 
+using Coda.RoundRobin.Application.RoundRobin.Dto;
 using Coda.RoundRobin.Application.RoundRobin.Queries;
+using Coda.RoundRobin.Infrastructure.RoundRobin.Interfaces;
 using MediatR;
 using Microsoft.Extensions.Logging;
-using Microsoft.Extensions.Options;
 
-internal sealed class GetEndpointsHandler : IRequestHandler<GetEndpoints, IReadOnlyList<Uri>>
+internal sealed class GetEndpointsHandler : IRequestHandler<GetEndpoints, IReadOnlyList<EndpointDto>>
 {
+    private readonly IEndpointResolver endpointResolver;
     private readonly ILogger<GetEndpointsHandler> logger;
-    private readonly RoundRobinOptions roundRobinOptions;
 
-    public GetEndpointsHandler(ILogger<GetEndpointsHandler> logger, IOptions<RoundRobinOptions> roundRobinOptions)
+    public GetEndpointsHandler(IEndpointResolver endpointResolver, ILogger<GetEndpointsHandler> logger)
     {
+        this.endpointResolver = endpointResolver;
         this.logger = logger;
-        this.roundRobinOptions = roundRobinOptions.Value;
     }
 
-    public async Task<IReadOnlyList<Uri>> Handle(GetEndpoints request, CancellationToken cancellationToken)
+    public async Task<IReadOnlyList<EndpointDto>> Handle(GetEndpoints request, CancellationToken cancellationToken)
     {
         this.logger.LogInformation("Try to get endpoints");
 
-        return await Task.FromResult(this.roundRobinOptions.Endpoints);
+        var endpoints = await this.endpointResolver.GetEndpointsAsync(cancellationToken);
+
+        var result = endpoints
+            .Select(endpoint => new EndpointDto
+            {
+                Name = endpoint.Name,
+                Status = endpoint.Status.ToString(),
+                Uri = endpoint.Uri,
+            }).ToList();
+
+        return result;
     }
 }

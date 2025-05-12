@@ -61,6 +61,8 @@ try
 
     app.MapControllers();
 
+    app.Services.UseInfrastructure();
+
     await app.RunAsync();
 
     return EXIT_SUCCESS;
