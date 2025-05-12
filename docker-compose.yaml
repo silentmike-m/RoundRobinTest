@@ -93,7 +93,6 @@ services:
       - dev-network
     restart: unless-stopped
   round-robin-api:
-    container_name: round-robin-api
     image: round-robin-api:local
     build:
       context: ./
@@ -124,8 +123,11 @@ services:
         condition: service_started
       simple-api-3:
         condition: service_started
+    deploy:
+      mode: replicated
+      replicas: 2
     ports:
-      - "5080:5080"
+      - ":5080"
     networks:
       - dev-network
     restart: unless-stopped
