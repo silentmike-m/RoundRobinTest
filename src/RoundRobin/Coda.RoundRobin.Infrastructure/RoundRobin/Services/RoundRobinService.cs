@@ -5,6 +5,7 @@ using System.Net.Http.Json;
 using System.Text.Json;
 using System.Text.Json.Nodes;
 using Coda.RoundRobin.Application.RoundRobin.Interfaces;
+using Coda.RoundRobin.Infrastructure.RoundRobin.Enums;
 using Coda.RoundRobin.Infrastructure.RoundRobin.Exception;
 using Coda.RoundRobin.Infrastructure.RoundRobin.Interfaces;
 using Microsoft.Extensions.Logging;
@@ -37,13 +38,13 @@ internal sealed class RoundRobinService : IRoundRobinService
 
             using var httpClient = this.httpClientFactory.CreateClient();
 
-            httpClient.BaseAddress = endpoint;
+            httpClient.BaseAddress = endpoint.Uri;
 
             var response = await retryPolicy.ExecuteAsync(async token =>
             {
                 using var httpRequest = new HttpRequestMessage();
 
-                httpRequest.RequestUri = new Uri(endpoint, POST_ENDPOINT);
+                httpRequest.RequestUri = new Uri(endpoint.Uri, POST_ENDPOINT);
                 httpRequest.Method = HttpMethod.Post;
                 httpRequest.Content = JsonContent.Create(request);
 
@@ -56,18 +57,23 @@ internal sealed class RoundRobinService : IRoundRobinService
 
             if (result is null)
             {
-                throw new EmptyResponseException(endpoint);
+                throw new EmptyResponseException(endpoint.Uri);
             }
 
             return result;
         }
         catch (JsonException exception)
         {
-            throw new InvalidResponseException(endpoint, exception);
+            throw new InvalidResponseException(endpoint.Uri, exception);
         }
         catch (HttpRequestException exception)
         {
-            throw new InvalidResponseCodeException(endpoint, exception.StatusCode?.ToString() ?? @"n\a", exception);
+            if (exception.StatusCode >= HttpStatusCode.Unauthorized)
+            {
+                await this.endpointResolver.UpdateEndpointAsync(endpoint, EndpointStatus.Unhealthy, CancellationToken.None);
+            }
+
+            throw new InvalidResponseCodeException(endpoint.Uri, exception.StatusCode?.ToString() ?? @"n\a", exception);
         }
     }
 }

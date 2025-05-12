@@ -26,7 +26,7 @@ internal sealed class EndpointResolver : IEndpointResolver
         return await this.GetEndpointsAsync(cacheKey, cancellationToken);
     }
 
-    public async Task<Uri> GetNextEndpointAsync(CancellationToken cancellationToken)
+    public async Task<Endpoint> GetNextEndpointAsync(CancellationToken cancellationToken)
     {
         var cacheKey = new CurrentEndpointIndexCacheKey();
 
@@ -40,7 +40,7 @@ internal sealed class EndpointResolver : IEndpointResolver
 
         await this.cacheService.SetAsync(cacheKey, index, keyTimeoutInMinutes: null, cancellationToken);
 
-        return result.Uri;
+        return result;
     }
 
     public async Task InitializeEndpointsAsync(CancellationToken cancellationToken)
@@ -55,7 +55,31 @@ internal sealed class EndpointResolver : IEndpointResolver
 
         var cacheKey = new EndpointsCacheKey();
 
-        await this.cacheService.SetAsync(cacheKey, endpoints, keyTimeoutInMinutes: null, cancellationToken);
+        await this.UpdateEndpointsAsync(cacheKey, endpoints, cancellationToken);
+    }
+
+    public async Task UpdateEndpointAsync(Endpoint endpointToUpdate, EndpointStatus status, CancellationToken cancellationToken)
+    {
+        var cacheKey = new EndpointsCacheKey();
+        var endpoints = await this.GetEndpointsAsync(cacheKey, cancellationToken);
+
+        var endpoint = endpoints.FirstOrDefault(endpoint => endpoint.Name.Equals(endpointToUpdate.Name, StringComparison.OrdinalIgnoreCase));
+
+        if (endpoint is not null)
+        {
+            endpoint.Status = status;
+
+            await this.UpdateEndpointsAsync(cacheKey, endpoints, cancellationToken);
+        }
+        else
+        {
+            var newEndpoints = new List<Endpoint>(endpoints)
+            {
+                endpointToUpdate,
+            };
+
+            await this.UpdateEndpointsAsync(cacheKey, newEndpoints, cancellationToken);
+        }
     }
 
     public async Task UpdateEndpointsAsync(IReadOnlyDictionary<string, EndpointStatus> endpointsStatus, CancellationToken cancellationToken)
@@ -69,7 +93,7 @@ internal sealed class EndpointResolver : IEndpointResolver
             endpoint.Status = endpointsStatus.GetValueOrDefault(endpoint.Name, EndpointStatus.Unhealthy);
         }
 
-        await this.cacheService.SetAsync(cacheKey, endpoints, keyTimeoutInMinutes: null, cancellationToken);
+        await this.UpdateEndpointsAsync(cacheKey, endpoints, cancellationToken);
     }
 
     private async Task<IReadOnlyList<Endpoint>> GetEndpointsAsync(EndpointsCacheKey cacheKey, CancellationToken cancellationToken)
@@ -78,6 +102,9 @@ internal sealed class EndpointResolver : IEndpointResolver
 
         return result ?? [];
     }
+
+    private async Task UpdateEndpointsAsync(EndpointsCacheKey cacheKey, IReadOnlyList<Endpoint> endpoints, CancellationToken cancellationToken)
+        => await this.cacheService.SetAsync(cacheKey, endpoints, keyTimeoutInMinutes: null, cancellationToken);
 
     private static Endpoint GetNextEndpoint(IReadOnlyList<Endpoint> endpoints, int currentIndex)
     {
