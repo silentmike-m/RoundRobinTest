@@ -9,6 +9,7 @@
 4. [Round Robin API](#round-robin-api)
    * [Round Robin API Redis](#round-robin-api-redis)
    * [Round Robin API retry policy](#round-robin-api-retry-policy)
+   * [Round Robin API endpoint status](#round-robin-api-endpoint-status)
 5. [Logs](#logs)
    * [Simple API receive request log](#simple-api-receive-request-log)
 
